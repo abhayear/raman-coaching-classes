@@ -1,0 +1,54 @@
+:root {
+  --content-max-width: 900px;
+  --link-color: #2563eb;
+}
+
+.content main {
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.chapter li.part-title {
+  font-weight: 700;
+  color: var(--sidebar-fg);
+  margin-top: 1.2em;
+}
+
+blockquote.learning-tip {
+  border-left: 4px solid #10b981;
+  background: rgba(16, 185, 129, 0.08);
+  padding: 0.75em 1em;
+  margin: 1.2em 0;
+}
+
+blockquote {
+  border-left: 4px solid #10b981;
+  background: rgba(16, 185, 129, 0.08);
+  padding: 0.75em 1em;
+  margin: 1.2em 0;
+}
+
+.mechanism-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1em 1.25em;
+  font-family: ui-monospace, monospace;
+  font-size: 0.92rem;
+  overflow-x: auto;
+}
+
+@media print {
+  .nav-chapters,
+  #menu-bar,
+  .sidebar {
+    display: none !important;
+  }
+  .content {
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+  .page-break {
+    page-break-before: always;
+  }
+}

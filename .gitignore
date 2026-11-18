@@ -1,0 +1,7 @@
+node_modules/
+book/
+exports/
+*.pdf
+__pycache__/
+.pytest_cache/
+.DS_Store

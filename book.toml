@@ -1,0 +1,27 @@
+[book]
+title = "MSc Chemistry — Concept-First Guide"
+authors = ["MSc Chemistry Guide"]
+description = "Master of Science Chemistry subjects from fundamentals to advanced — organic synthesis, reaction mechanisms, and more. Built for understanding, not cramming."
+language = "en"
+multilingual = false
+src = "src"
+
+[build]
+build-dir = "book"
+create-missing = false
+
+[output.html]
+default-theme = "rust"
+preferred-dark-theme = "navy"
+git-repository-url = ""
+edit-url-template = ""
+no-section-label = false
+additional-css = ["theme/custom.css"]
+print = { enable = true }
+
+[output.html.search]
+enable = true
+limit-results = 30
+teaser-word-count = 30
+
+[preprocessor]

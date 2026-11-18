@@ -1,0 +1,41 @@
+name: Deploy coaching website
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Build content and HTML site
+        env:
+          SITE_BASE_PATH: /raman-coaching-classes/
+        run: |
+          python scripts/build_curriculum.py
+          python scripts/generate_book.py
+          python scripts/build_html.py
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: book
+      - id: deployment
+        uses: actions/deploy-pages@v4
