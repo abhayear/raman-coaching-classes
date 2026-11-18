@@ -14,7 +14,7 @@ OUT = ROOT / "book"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from branding import load_branding
-from coaching_site import about_body, contact_body, courses_body, landing_body, top_subjects
+from coaching_site import about_body, contact_body, courses_body, landing_body, my_courses_body, top_subjects
 from document_center import copy_document_files, documents_body, validate_manifest
 from publish_assets import publish_admin_and_services
 
@@ -72,6 +72,7 @@ def site_header(active: str = "") -> str:
       ("Home", f"{BASE}index.html", "home"),
       ("Courses", f"{BASE}courses.html", "courses"),
       ("Documents", f"{BASE}documents.html", "documents"),
+      ("My courses", f"{BASE}my-courses.html", "mycourses"),
       ("Study", f"{BASE}introduction.html", "study"),
       ("About", f"{BASE}about.html", "about"),
       ("Contact", f"{BASE}contact.html", "contact"),
@@ -246,6 +247,11 @@ body.layout-full #content { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5
 .course-card:hover { border-color: #2563eb; box-shadow: 0 4px 12px rgba(37,99,235,.15); }
 .course-card h3 { margin: 0 0 0.5rem; color: #1e40af; font-size: 1rem; }
 .course-card p { margin: 0; font-size: 0.85rem; color: #64748b; }
+.price-badge { display: inline-block; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 6px; margin-bottom: 0.5rem; }
+.price-badge.paid { background: #fef3c7; color: #92400e; }
+.price-badge.free { background: #d1fae5; color: #065f46; }
+.paid-course-card .course-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.75rem; }
+.login-hint { font-size: 0.8rem; color: #64748b; }
 .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; list-style: none; padding: 0; }
 .feature-grid li { background: #fff; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0; }
 .doc-intro { font-size: 1.05rem; color: #475569; }
@@ -367,6 +373,7 @@ def main() -> None:
 
     static_pages = (
         ("courses.html", "Courses", lambda: courses_body(BRANDING, BASE, subjects), "courses"),
+        ("my-courses.html", "My Courses", lambda: my_courses_body(BRANDING, BASE), "mycourses"),
         ("documents.html", "Document Centre", lambda: documents_body(BRANDING, BASE), "documents"),
         ("about.html", "About", lambda: about_body(BRANDING), "about"),
         ("contact.html", "Contact", lambda: contact_body(BRANDING), "contact"),

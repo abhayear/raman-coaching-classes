@@ -76,8 +76,45 @@
         <h2>Uploaded documents</h2>
         <ul id="admin-doc-list" class="admin-list"></ul>
       </section>
+
+      <section class="admin-card hidden" id="courses-admin-panel">
+        <h2>Paid PDF courses</h2>
+        <form id="course-form" class="admin-form">
+          <label for="course-title">Course title</label>
+          <input type="text" id="course-title" required/>
+          <label for="course-slug">Slug (URL id)</label>
+          <input type="text" id="course-slug" required placeholder="organic-pdf-pack-2026"/>
+          <label for="course-desc">Description</label>
+          <textarea id="course-desc"></textarea>
+          <label for="course-price">Price (INR)</label>
+          <input type="number" id="course-price" min="0" value="499"/>
+          <label><input type="checkbox" id="course-free"/> Free course (no payment)</label>
+          <label for="course-study">Link to free online notes (optional)</label>
+          <input type="text" id="course-study" placeholder="organic-reaction-mechanisms/README.html"/>
+          <label for="course-razorpay">Razorpay payment link</label>
+          <input type="url" id="course-razorpay" placeholder="https://razorpay.me/..."/>
+          <label for="course-pdf">Course PDF</label>
+          <input type="file" id="course-pdf" accept=".pdf"/>
+          <input type="hidden" id="course-pdf-path"/>
+          <label for="course-sort">Sort order</label>
+          <input type="number" id="course-sort" value="0"/>
+          <button type="submit" class="btn-admin">Save course</button>
+        </form>
+        <h3>Existing courses</h3>
+        <ul id="course-admin-list" class="admin-list"></ul>
+        <h3>Grant access (cash / manual)</h3>
+        <form id="grant-form" class="admin-form">
+          <label for="grant-email">Student email (must have signed up)</label>
+          <input type="email" id="grant-email" required/>
+          <label for="grant-course">Course</label>
+          <select id="grant-course"></select>
+          <button type="submit" class="btn-admin">Grant PDF access</button>
+        </form>
+      </section>
     </div>
   </main>
+  <script src="../assets/student-auth.js"></script>
+  <script src="course-admin.js"></script>
   <script src="admin.js"></script>
 </body>
 </html>

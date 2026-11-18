@@ -32,6 +32,8 @@ def publish_admin_and_services() -> None:
             "supabaseUrl": data.get("supabaseUrl", ""),
             "supabaseAnonKey": data.get("supabaseAnonKey", ""),
             "storageBucket": data.get("storageBucket", "centre-documents"),
+            "coursePdfBucket": data.get("coursePdfBucket", "course-pdfs"),
+            "razorpayKeyId": data.get("razorpayKeyId", ""),
         },
         indent=2,
     ) + ";\n"
@@ -47,3 +49,8 @@ def publish_admin_and_services() -> None:
     if loader.exists():
         shutil.copy2(loader, BOOK / "assets" / "documents-loader.js")
         shutil.copy2(loader, BOOK / "admin" / "documents-loader.js")
+
+    assets_src = ROOT / "assets"
+    if assets_src.exists():
+        for path in assets_src.glob("*.js"):
+            shutil.copy2(path, BOOK / "assets" / path.name)

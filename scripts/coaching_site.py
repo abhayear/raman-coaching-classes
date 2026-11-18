@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import html
+import json
 import re
 from pathlib import Path
 
@@ -72,12 +73,68 @@ def landing_body(b: dict, base: str, subjects: list[tuple[str, str]]) -> str:
 
 def courses_body(b: dict, base: str, subjects: list[tuple[str, str]]) -> str:
     cards = subject_cards(subjects, base)
+    scripts = f"""
+<script>window.SITE_BASE = {json.dumps(base)};</script>
+<script src="{base}site-services.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="{base}assets/documents-loader.js"></script>
+<script src="{base}assets/student-auth.js"></script>
+<script src="{base}assets/courses-store.js"></script>
+"""
     return f"""
-<h1>Courses & study material</h1>
-<p>Full digital library for <strong>{html.escape(b['siteName'])}</strong>. Select a subject to open chapters.</p>
+<h1>Courses</h1>
+<p><strong>{html.escape(b['siteName'])}</strong> — free online notes, paid PDF bundles, and full MSc library.</p>
+<p><a href="{base}my-courses.html">My courses</a> (sign in to open purchased PDFs)</p>
+
+<h2>Paid &amp; PDF courses</h2>
+<p>Pay with Razorpay, then sign in with the <strong>same email</strong> to download your PDF.</p>
+<div id="student-login-box"></div>
+<form id="student-login-inline" class="admin-form" style="max-width:420px;margin-bottom:1.5rem">
+  <label for="student-email">Student email</label>
+  <input type="email" id="student-email" required autocomplete="username"/>
+  <label for="student-password">Password</label>
+  <input type="password" id="student-password" required autocomplete="current-password"/>
+  <button type="submit" class="btn-admin">Sign in</button>
+  <button type="button" id="student-signup-btn" class="btn-admin" style="background:#64748b">Create account</button>
+</form>
+<div id="paid-courses-list"><p class="doc-empty">Loading paid courses…</p></div>
+
+<h2>Free online library (all chapters)</h2>
+<p>Concept-first chapters — no payment required.</p>
 <div class="course-grid">{cards}</div>
-<p>Beginners: start with <a href="{base}introduction.html">Introduction</a> and
-<a href="{base}how-to-study.html">How to study without cramming</a>.</p>
+<p>Beginners: <a href="{base}introduction.html">Introduction</a> ·
+<a href="{base}how-to-study.html">How to study</a></p>
+{scripts}
+"""
+
+
+def my_courses_body(b: dict, base: str) -> str:
+    return f"""
+<h1>My courses</h1>
+<p>Your purchased and free PDF courses for <strong>{html.escape(b['siteName'])}</strong>.</p>
+<section id="my-courses-auth" class="admin-card">
+  <h2>Student sign in</h2>
+  <form id="my-login-form" class="admin-form">
+    <label for="my-email-in">Email</label>
+    <input type="email" id="my-email-in" required autocomplete="username"/>
+    <label for="my-pass-in">Password</label>
+    <input type="password" id="my-pass-in" required autocomplete="current-password"/>
+    <button type="submit" class="btn-admin">Sign in</button>
+    <button type="button" id="my-signup" class="btn-admin" style="background:#64748b">Create account</button>
+  </form>
+</section>
+<section id="my-courses-mount" class="hidden">
+  <p>Signed in as <strong id="my-email"></strong>
+  · <button type="button" id="my-logout" class="btn-admin">Sign out</button></p>
+</section>
+<p><a href="{base}courses.html">← Browse all courses</a></p>
+<script>window.SITE_BASE = {json.dumps(base)};</script>
+<script src="{base}site-services.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="{base}assets/documents-loader.js"></script>
+<script src="{base}assets/student-auth.js"></script>
+<script src="{base}assets/courses-store.js"></script>
+<script src="{base}assets/my-courses-page.js"></script>
 """
 
 

@@ -2,5 +2,7 @@
   "supabaseUrl": "",
   "supabaseAnonKey": "",
   "storageBucket": "centre-documents",
-  "comments": "Fill supabaseUrl and supabaseAnonKey after creating a Supabase project (see ADMIN.md). Leave empty to use static documents from config/documents.json only."
+  "coursePdfBucket": "course-pdfs",
+  "razorpayKeyId": "",
+  "comments": "See ADMIN.md and PAID-COURSES.md. course-pdfs bucket must be PRIVATE. Use Razorpay Payment Links per course."
 }

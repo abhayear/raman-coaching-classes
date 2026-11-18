@@ -16,6 +16,7 @@
     $("#login-panel").classList.add("hidden");
     $("#upload-panel").classList.add("hidden");
     $("#manage-panel")?.classList.add("hidden");
+    $("#courses-admin-panel")?.classList.add("hidden");
     $("#setup-panel").classList.remove("hidden");
   }
 
@@ -23,6 +24,7 @@
     $("#setup-panel").classList.add("hidden");
     $("#upload-panel").classList.add("hidden");
     $("#manage-panel")?.classList.add("hidden");
+    $("#courses-admin-panel")?.classList.add("hidden");
     $("#login-panel").classList.remove("hidden");
   }
 
@@ -31,6 +33,7 @@
     $("#login-panel").classList.add("hidden");
     $("#upload-panel").classList.remove("hidden");
     $("#manage-panel")?.classList.remove("hidden");
+    $("#courses-admin-panel")?.classList.remove("hidden");
     $("#admin-user").textContent = email || "Admin";
     loadAdminList();
   }
