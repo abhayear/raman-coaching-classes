@@ -18,6 +18,13 @@ For GitHub Pages, set `deployWebBasePath` to `/<your-repo-name>/` and use the sa
 
 Open **http://localhost:8765/index.html** (coaching home).
 
+## Document Centre
+
+1. Put files in **`documents/`** (syllabus, notices, forms, papers, …).
+2. List each file in **`config/documents.json`**.
+3. See **`documents/README.md`** for details.
+4. Rebuild / push — students open **Documents** on the site.
+
 ## Deploy to GitHub Pages (free, public)
 
 1. Create a GitHub repo named **`raman-coaching-classes`** (must match `deployWebBasePath` in config).

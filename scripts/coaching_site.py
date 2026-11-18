@@ -49,6 +49,7 @@ def landing_body(b: dict, base: str, subjects: list[tuple[str, str]]) -> str:
   <div class="hero-actions">
     <a class="btn btn-primary" href="{base}introduction.html">Start learning free</a>
     <a class="btn btn-secondary" href="{base}courses.html">View all courses</a>
+    <a class="btn btn-secondary" href="{base}documents.html">Document centre</a>
   </div>
 </section>
 <section class="features">

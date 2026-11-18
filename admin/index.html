@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin — Document uploads</title>
+  <link rel="stylesheet" href="../style.css"/>
+  <link rel="stylesheet" href="admin.css"/>
+  <script src="site-services.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="documents-loader.js"></script>
+</head>
+<body class="layout-full" style="padding-top:56px">
+  <header class="site-header">
+    <a class="logo" href="../index.html">Raman Coaching</a>
+    <nav class="site-nav">
+      <a href="../index.html">Home</a>
+      <a href="../documents.html">Document Centre</a>
+    </nav>
+    <a class="header-cta" href="../documents.html">View public page</a>
+  </header>
+  <main id="content">
+    <div class="admin-wrap">
+      <h1>Admin — document uploads</h1>
+      <p>Upload syllabus, notices, forms, and papers. Students see new files on the <a href="../documents.html">Document Centre</a> without redeploying the site.</p>
+      <p id="admin-message" class="admin-msg hidden" aria-live="polite"></p>
+
+      <section id="setup-panel" class="admin-card admin-setup hidden">
+        <h2>One-time setup (Supabase)</h2>
+        <p>Connect free cloud storage for admin uploads:</p>
+        <ol>
+          <li>Create a project at <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a></li>
+          <li>Run <code>supabase/schema.sql</code> in the SQL Editor</li>
+          <li>Create Storage bucket <code>centre-documents</code> (public read)</li>
+          <li>Add Storage policies (see <code>ADMIN.md</code>)</li>
+          <li>Create an admin user: Authentication → Users → Add user</li>
+          <li>Copy Project URL + anon key into <code>config/services.json</code></li>
+          <li>Rebuild and push: <code>python scripts/build_html.py</code></li>
+        </ol>
+      </section>
+
+      <section id="login-panel" class="admin-card hidden">
+        <h2>Staff sign in</h2>
+        <form id="login-form" class="admin-form">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" required autocomplete="username"/>
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" required autocomplete="current-password"/>
+          <button type="submit" class="btn-admin">Sign in</button>
+        </form>
+      </section>
+
+      <section id="upload-panel" class="admin-card hidden">
+        <h2>Upload document</h2>
+        <p>Signed in as <strong id="admin-user"></strong> · <button type="button" id="logout-btn" class="btn-admin" style="margin-top:0">Sign out</button></p>
+        <form id="upload-form" class="admin-form">
+          <label for="doc-title">Title</label>
+          <input type="text" id="doc-title" required maxlength="200"/>
+          <label for="doc-description">Description</label>
+          <textarea id="doc-description"></textarea>
+          <label for="doc-category">Category</label>
+          <select id="doc-category" required>
+            <option value="syllabus">Syllabus &amp; curriculum</option>
+            <option value="notices">Notices &amp; circulars</option>
+            <option value="forms">Forms &amp; applications</option>
+            <option value="papers">Question papers &amp; assignments</option>
+            <option value="other">Other</option>
+          </select>
+          <label for="doc-file">File (PDF, DOCX, image, …)</label>
+          <input type="file" id="doc-file" required accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.txt,.ppt,.pptx"/>
+          <button type="submit" id="upload-btn" class="btn-admin">Upload</button>
+        </form>
+      </section>
+
+      <section class="admin-card hidden" id="manage-panel">
+        <h2>Uploaded documents</h2>
+        <ul id="admin-doc-list" class="admin-list"></ul>
+      </section>
+    </div>
+  </main>
+  <script src="admin.js"></script>
+</body>
+</html>

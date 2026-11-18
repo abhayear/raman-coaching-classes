@@ -15,6 +15,8 @@ OUT = ROOT / "book"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from branding import load_branding
 from coaching_site import about_body, contact_body, courses_body, landing_body, top_subjects
+from document_center import copy_document_files, documents_body, validate_manifest
+from publish_assets import publish_admin_and_services
 
 BRANDING = load_branding()
 BASE = BRANDING["base"]
@@ -69,6 +71,7 @@ def site_header(active: str = "") -> str:
   links = [
       ("Home", f"{BASE}index.html", "home"),
       ("Courses", f"{BASE}courses.html", "courses"),
+      ("Documents", f"{BASE}documents.html", "documents"),
       ("Study", f"{BASE}introduction.html", "study"),
       ("About", f"{BASE}about.html", "about"),
       ("Contact", f"{BASE}contact.html", "contact"),
@@ -119,7 +122,7 @@ def shell(
 {sidebar}
 <main id="content">{pager}{body}{pager}</main>
 <footer class="site-footer">
-<p>&copy; {html.escape(SITE)} · <a href="{BASE}courses.html">Courses</a> · <a href="{BASE}contact.html">Contact</a></p>
+<p>&copy; {html.escape(SITE)} · <a href="{BASE}courses.html">Courses</a> · <a href="{BASE}documents.html">Documents</a> · <a href="{BASE}admin/index.html">Admin</a> · <a href="{BASE}contact.html">Contact</a></p>
 </footer>
 </body>
 </html>"""
@@ -245,6 +248,24 @@ body.layout-full #content { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5
 .course-card p { margin: 0; font-size: 0.85rem; color: #64748b; }
 .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; list-style: none; padding: 0; }
 .feature-grid li { background: #fff; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0; }
+.doc-intro { font-size: 1.05rem; color: #475569; }
+.doc-search-label { display: block; font-weight: 600; margin-top: 1.5rem; }
+.doc-search {
+  width: 100%; max-width: 420px; padding: 0.6rem 0.75rem; margin: 0.5rem 0 1.5rem;
+  border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem;
+}
+.doc-category { margin: 2rem 0; }
+.doc-list { display: grid; gap: 1rem; }
+.doc-card {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.25rem;
+}
+.doc-card h3 { margin: 0 0 0.5rem; font-size: 1.05rem; }
+.doc-card h3 a { color: #1e40af; text-decoration: none; }
+.doc-card h3 a:hover { text-decoration: underline; }
+.doc-meta { font-size: 0.85rem; color: #64748b; margin: 0.75rem 0 0; }
+.doc-missing { font-size: 0.8rem; color: #b45309; font-weight: normal; }
+.doc-empty { color: #94a3b8; font-style: italic; }
+.doc-admin { margin-top: 2.5rem; padding: 1rem; background: #f1f5f9; border-radius: 8px; font-size: 0.9rem; }
 h1 { color: #0f172a; border-bottom: 2px solid #2563eb; padding-bottom: 0.3em; }
 h2 { color: #1e40af; margin-top: 1.5em; }
 h3 { color: #334155; }
@@ -336,17 +357,27 @@ def main() -> None:
         ),
         encoding="utf-8",
     )
-    for fname, page_title, body_fn, active in (
+    copy_document_files(BASE)
+    publish_admin_and_services()
+    missing = validate_manifest()
+    if missing:
+        print("Document Centre: missing files (add to repo):")
+        for m in missing:
+            print(f"  - {m}")
+
+    static_pages = (
         ("courses.html", "Courses", lambda: courses_body(BRANDING, BASE, subjects), "courses"),
+        ("documents.html", "Document Centre", lambda: documents_body(BRANDING, BASE), "documents"),
         ("about.html", "About", lambda: about_body(BRANDING), "about"),
         ("contact.html", "Contact", lambda: contact_body(BRANDING), "contact"),
-    ):
+    )
+    for fname, page_title, body_fn, active in static_pages:
         (OUT / fname).write_text(
             shell(page_title, body_fn(), full_width=True, active_header=active),
             encoding="utf-8",
         )
 
-    print(f"Built {count + 4} HTML pages in {OUT}")
+    print(f"Built {count + len(static_pages) + 1} HTML pages in {OUT}")
     print(f"Site: {SITE} | Base path: {BASE!r}")
     print(f"Open: {OUT / 'index.html'}")
 

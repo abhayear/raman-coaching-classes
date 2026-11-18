@@ -1,0 +1,6 @@
+{
+  "supabaseUrl": "",
+  "supabaseAnonKey": "",
+  "storageBucket": "centre-documents",
+  "comments": "Fill supabaseUrl and supabaseAnonKey after creating a Supabase project (see ADMIN.md). Leave empty to use static documents from config/documents.json only."
+}

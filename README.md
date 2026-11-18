@@ -1,6 +1,9 @@
-# MSc Chemistry Concept-First Guide
+# Raman Coaching Classes
 
-A **Master of Science level** chemistry book/blog covering major subjects from **beginner to advanced**, with deep focus on **organic reaction mechanisms** and **organic synthesis**. Built for **understanding, not cramming**.
+**MSc Chemistry** coaching website and study library — concept-first notes from beginner to advanced.  
+**Live site:** https://abhayear.github.io/raman-coaching-classes/
+
+Rebrand anytime in `config/branding.json` (see `DEPLOY.md`).
 
 ## Features
 

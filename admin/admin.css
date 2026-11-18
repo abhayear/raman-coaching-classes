@@ -1,0 +1,31 @@
+.admin-wrap { max-width: 720px; margin: 0 auto; }
+.admin-card {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.admin-card h2 { margin-top: 0; color: #1e40af; font-size: 1.15rem; }
+.admin-form label { display: block; font-weight: 600; margin: 0.75rem 0 0.35rem; font-size: 0.9rem; }
+.admin-form input, .admin-form select, .admin-form textarea {
+  width: 100%; padding: 0.55rem 0.65rem; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit;
+}
+.admin-form textarea { min-height: 80px; resize: vertical; }
+.btn-admin {
+  margin-top: 1rem; background: #2563eb; color: #fff; border: none; padding: 0.65rem 1.25rem;
+  border-radius: 8px; font-weight: 600; cursor: pointer;
+}
+.btn-admin:hover { background: #1d4ed8; }
+.btn-admin:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-danger { background: #dc2626; }
+.btn-danger:hover { background: #b91c1c; }
+.admin-msg { padding: 0.75rem 1rem; border-radius: 8px; margin: 1rem 0; }
+.admin-msg.ok { background: #ecfdf5; color: #065f46; border: 1px solid #10b981; }
+.admin-msg.err { background: #fef2f2; color: #991b1b; border: 1px solid #f87171; }
+.admin-msg.warn { background: #fffbeb; color: #92400e; border: 1px solid #fbbf24; }
+.admin-list { list-style: none; padding: 0; margin: 0; }
+.admin-list li {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem;
+  padding: 0.75rem 0; border-bottom: 1px solid #e2e8f0;
+}
+.admin-list li:last-child { border-bottom: none; }
+.admin-setup code { background: #f1f5f9; padding: 0.15rem 0.35rem; border-radius: 4px; }
+.hidden { display: none !important; }

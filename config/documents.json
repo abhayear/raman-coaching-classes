@@ -1,0 +1,45 @@
+{
+  "pageTitle": "Document Centre",
+  "intro": "Important notices, syllabi, forms, and study material for Raman Coaching Classes students. Add your own files in the documents/ folder and list them here.",
+  "categories": [
+    {
+      "id": "syllabus",
+      "name": "Syllabus & curriculum",
+      "documents": [
+        {
+          "title": "MSc Chemistry — subject outline",
+          "file": "documents/syllabus/msc-chemistry-outline.txt",
+          "description": "Subjects covered in the online library",
+          "updated": "2026-01-01"
+        }
+      ]
+    },
+    {
+      "id": "notices",
+      "name": "Notices & circulars",
+      "documents": [
+        {
+          "title": "Welcome to Raman Coaching Classes",
+          "file": "documents/notices/welcome-notice.txt",
+          "description": "How to use the website and document centre",
+          "updated": "2026-01-01"
+        }
+      ]
+    },
+    {
+      "id": "forms",
+      "name": "Forms & applications",
+      "documents": []
+    },
+    {
+      "id": "papers",
+      "name": "Question papers & assignments",
+      "documents": []
+    },
+    {
+      "id": "other",
+      "name": "Other documents",
+      "documents": []
+    }
+  ]
+}
