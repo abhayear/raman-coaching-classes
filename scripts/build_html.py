@@ -252,6 +252,14 @@ body.layout-full #content { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5
 .price-badge.free { background: #d1fae5; color: #065f46; }
 .paid-course-card .course-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.75rem; }
 .login-hint { font-size: 0.8rem; color: #64748b; }
+.upi-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; }
+.upi-modal.hidden { display: none; }
+.upi-modal-backdrop { position: absolute; inset: 0; background: rgba(15,23,42,.65); }
+.upi-modal-box {
+  position: relative; background: #fff; max-width: 480px; width: 92%; max-height: 90vh; overflow-y: auto;
+  padding: 1.5rem; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,.2);
+}
+.upi-close { position: absolute; top: 0.5rem; right: 0.75rem; border: none; background: none; font-size: 1.5rem; cursor: pointer; }
 .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; list-style: none; padding: 0; }
 .feature-grid li { background: #fff; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0; }
 .doc-intro { font-size: 1.05rem; color: #475569; }

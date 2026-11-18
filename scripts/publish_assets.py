@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parent.parent
 BOOK = ROOT / "book"
 ADMIN_SRC = ROOT / "admin"
 SERVICES = ROOT / "config" / "services.json"
+PAYMENTS = ROOT / "config" / "payments.json"
 
 
 def publish_admin_and_services() -> None:
@@ -44,6 +45,12 @@ def publish_admin_and_services() -> None:
     ):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(js, encoding="utf-8")
+
+    pay_data = {}
+    if PAYMENTS.exists():
+        pay_data = json.loads(PAYMENTS.read_text(encoding="utf-8"))
+    pay_js = "window.SITE_PAYMENTS = " + json.dumps(pay_data, indent=2) + ";\n"
+    (BOOK / "site-payments.js").write_text(pay_js, encoding="utf-8")
 
     loader = ADMIN_SRC / "documents-loader.js"
     if loader.exists():

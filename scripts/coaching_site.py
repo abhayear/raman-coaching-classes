@@ -79,11 +79,14 @@ def courses_body(b: dict, base: str, subjects: list[tuple[str, str]]) -> str:
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="{base}assets/documents-loader.js"></script>
 <script src="{base}assets/student-auth.js"></script>
+<script src="{base}site-payments.js"></script>
+<script src="{base}assets/upi-payment.js"></script>
 <script src="{base}assets/courses-store.js"></script>
 """
     return f"""
 <h1>Courses</h1>
 <p><strong>{html.escape(b['siteName'])}</strong> — free online notes, paid PDF bundles, and full MSc library.</p>
+<p class="login-hint">Paid PDFs: <strong>UPI (no payment-gateway fee)</strong> — see <code>PAID-COURSES.md</code> / payments setup.</p>
 <p><a href="{base}my-courses.html">My courses</a> (sign in to open purchased PDFs)</p>
 
 <h2>Paid &amp; PDF courses</h2>

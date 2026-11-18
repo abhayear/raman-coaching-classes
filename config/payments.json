@@ -1,0 +1,18 @@
+{
+  "method": "upi",
+  "preferUpiOverRazorpay": true,
+  "upiId": "yourname@ybl",
+  "payeeName": "Raman Coaching Classes",
+  "note": "Course fee — no GST (small coaching / exempt turnover). Save UTR after payment.",
+  "currency": "INR",
+  "supportPhone": "+91-00000-00000",
+  "supportWhatsapp": "",
+  "instructions": [
+    "Scan QR or pay to UPI ID shown.",
+    "Enter exact course amount (do not round off).",
+    "Copy 12-digit UTR / transaction ID from your UPI app.",
+    "Sign in on this site → submit “I have paid”.",
+    "We approve within a few hours; then open PDF from My Courses."
+  ],
+  "gstDisclaimer": "This centre issues receipts without GST unless GSTIN is displayed on your invoice. Consult your CA if turnover exceeds exemption limits."
+}

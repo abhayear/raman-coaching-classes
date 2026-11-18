@@ -82,20 +82,30 @@
               course.pdf_storage_path +
               '">Download PDF</button>'
           );
-        } else if (!course.is_free && course.razorpay_payment_link) {
+        } else if (!course.is_free && !owned) {
+          const pay = window.SITE_PAYMENTS || {};
+          const upiOn = pay.upiId && pay.preferUpiOverRazorpay !== false;
+          if (upiOn) {
+            actions.push(
+              '<button type="button" class="btn btn-primary upi-pay" data-id="' +
+                course.id +
+                '">Pay via UPI (0% gateway)</button>'
+            );
+          }
+          if (!upiOn && course.razorpay_payment_link) {
+            actions.push(
+              '<a class="btn btn-primary" href="' +
+                course.razorpay_payment_link +
+                '" target="_blank" rel="noopener">Pay online (Razorpay)</a>'
+            );
+          }
+          if (!upiOn && !course.razorpay_payment_link) {
+            actions.push(
+              '<span class="doc-missing">Payment not configured — contact centre</span>'
+            );
+          }
           actions.push(
-            '<a class="btn btn-primary" href="' +
-              course.razorpay_payment_link +
-              '" target="_blank" rel="noopener">Buy &amp; pay</a>'
-          );
-        } else if (!course.is_free) {
-          actions.push(
-            '<span class="doc-missing">Payment link not set — contact centre</span>'
-          );
-        }
-        if (!course.is_free && !owned) {
-          actions.push(
-            '<span class="login-hint">After payment, sign in with the <strong>same email</strong> used on Razorpay.</span>'
+            '<span class="login-hint">After UPI: sign in and submit UTR, or wait for admin approval.</span>'
           );
         }
         return (
@@ -121,6 +131,45 @@
         await downloadPdf(courseId, path);
       });
     });
+
+    mount.querySelectorAll(".upi-pay").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const session = await StudentAuth.getSession();
+        if (!session) {
+          alert("Please sign in first (form above), then pay via UPI.");
+          return;
+        }
+        const id = btn.getAttribute("data-id");
+        const course = (courses || []).find((c) => c.id === id);
+        if (course && window.UpiPayment) UpiPayment.showUpiModal(course);
+      });
+    });
+  }
+
+  async function submitUpiPayment() {
+    const session = await StudentAuth.getSession();
+    const c = DocumentCentre && DocumentCentre.supabaseClient();
+    if (!session || !c) {
+      alert("Sign in required.");
+      return;
+    }
+    const courseId = document.getElementById("upi-course-id")?.value;
+    const amount = parseInt(document.getElementById("upi-amount")?.value || "0", 10);
+    const utr = document.getElementById("upi-utr")?.value.trim();
+    const note = document.getElementById("upi-student-note")?.value.trim();
+    const { error } = await c.from("payment_requests").insert({
+      user_id: session.user.id,
+      course_id: courseId,
+      amount_inr: amount,
+      upi_reference: utr,
+      student_note: note,
+      status: "pending",
+    });
+    if (error) alert(error.message);
+    else {
+      alert("Submitted. Staff will verify your UPI payment and unlock the PDF.");
+      loadCatalog();
+    }
   }
 
   async function downloadPdf(courseId, storagePath) {
@@ -184,5 +233,5 @@
     loadCatalog();
   });
 
-  window.CoursesStore = { loadCatalog, downloadPdf };
+  window.CoursesStore = { loadCatalog, downloadPdf, submitUpiPayment };
 })();

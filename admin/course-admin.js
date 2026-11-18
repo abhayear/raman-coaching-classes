@@ -110,10 +110,58 @@
       .join("");
   }
 
+  async function loadPaymentRequests() {
+    const c = client();
+    const list = $("#payment-requests-list");
+    if (!c || !list) return;
+    const { data, error } = await c
+      .from("payment_requests")
+      .select("*, courses(title)")
+      .eq("status", "pending")
+      .order("created_at", { ascending: true });
+    if (error) {
+      list.innerHTML = "<li>" + error.message + "</li>";
+      return;
+    }
+    if (!data || !data.length) {
+      list.innerHTML = "<li>No pending UPI payments.</li>";
+      return;
+    }
+    list.innerHTML = data
+      .map(
+        (r) =>
+          "<li><span><strong>" +
+          (r.courses?.title || "Course") +
+          "</strong> · ₹" +
+          r.amount_inr +
+          " · UTR: <code>" +
+          r.upi_reference +
+          "</code></span>" +
+          '<span><button type="button" class="btn-admin" data-req="' +
+          r.id +
+          '" data-act="approve">Approve</button> ' +
+          '<button type="button" class="btn-admin btn-danger" data-req="' +
+          r.id +
+          '" data-act="reject">Reject</button></span></li>'
+      )
+      .join("");
+    list.querySelectorAll("button[data-req]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-req");
+        const act = btn.getAttribute("data-act");
+        const fn = act === "approve" ? "approve_payment_request" : "reject_payment_request";
+        const { error: err } = await c.rpc(fn, { p_request_id: id });
+        if (err) alert(err.message);
+        else loadPaymentRequests();
+      });
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     if ($("#course-admin-list")) {
       loadCoursesAdmin();
       loadCourseSelect();
+      loadPaymentRequests();
     }
   });
 })();
